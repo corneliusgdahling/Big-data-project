@@ -3,11 +3,11 @@ from constants import *
 
 
 def centroids(tweets):
-    tuples = tweets.map(lambda x:
-                        (x[COLUMNS.index('country_name')],
+    tuples = tweets.map(lambda t:
+                        (t[COLUMNS.index('country_name')],
                          1,
-                         float(x[COLUMNS.index('latitude')]),
-                         float(x[COLUMNS.index('longitude')])))\
+                         float(t[COLUMNS.index('latitude')]),
+                         float(t[COLUMNS.index('longitude')])))\
         .keyBy(lambda x: x[0])\
         .aggregateByKey(
         (0, 0.0, 0.0),
@@ -24,8 +24,10 @@ if __name__ == "__main__":
     task = '3'
     tweets = get_tweets(task, False)
 
+    cols = ['country_name', "latitude", "longitude"]
+
     result_file = open(result_file(task), "w")
 
     results = centroids(tweets)
 
-    write_results(result_file, results)
+    write_results(result_file, results, cols)

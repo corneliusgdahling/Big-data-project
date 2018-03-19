@@ -22,7 +22,12 @@ def result_file(task):
     return '../../results/result' + "_" + task + '.tsv'
 
 
-def write_results(result_file, results):
+def write_results(result_file, results, cols):
+    for i, c in enumerate(cols):
+        if i != len(cols) - 1:
+            result_file.write(c + "\t")
+        else:
+            result_file.write(c + "\n")
     for i, r in enumerate(results):
         if i != len(results) - 1:
             result_file.write(r + "\n")
