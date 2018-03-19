@@ -15,7 +15,7 @@ def frequency_words(tweets):
 
 if __name__ == "__main__":
     task = '6'
-    tweets = get_tweets(task, True)
+    tweets = get_tweets(task, False)
 
     result_file = open(result_file(task), "w")
 
