@@ -4,69 +4,69 @@ from constants import *
 
 # 2715066
 def a(tweets):
-    return str(tweets.count())
+    return "Tweet count\t" + str(tweets.count())
 
 
 # 499822
 def b(tweets):
     num_distinct_users = tweets.map(lambda t: t[COLUMNS.index('username')]).distinct().count()
-    return str(num_distinct_users)
+    return "Number of users\t" + str(num_distinct_users)
 
 
 # 70
 def c(tweets):
     num_distinct_countries = tweets.map(lambda t: t[COLUMNS.index('country_name')]).distinct().count()
-    return str(num_distinct_countries)
+    return "Number of countries\t" + str(num_distinct_countries)
 
 
 #23121
 def d(tweets):
     num_distinct_places = tweets.map(lambda t: t[COLUMNS.index('place_name')]).distinct().count()
-    return str(num_distinct_places)
+    return "Number of places\t" + str(num_distinct_places)
 
 
 # 46
 def e(tweets):
     num_distinct_languages = tweets.map(lambda t: t[COLUMNS.index('language')]).distinct().count()
-    return str(num_distinct_languages)
+    return "Number of languages\t" + str(num_distinct_languages)
 
 
 # -54.87555556
 def f(tweets):
     min_latitude = tweets.map(lambda t: float(t[COLUMNS.index('latitude')])).min()
-    return str(min_latitude)
+    return "Min latitude\t" + str(min_latitude)
 
 
 # -159.83019441
 def g(tweets):
     min_longitude = tweets.map(lambda t: float(t[COLUMNS.index('longitude')])).min()
-    return str(min_longitude)
+    return "Min longitude\t" + str(min_longitude)
 
 
 # 69.83186826
 def h(tweets):
     max_latitude = tweets.map(lambda t: float(t[COLUMNS.index('latitude')])).max()
-    return str(max_latitude)
+    return "Max latitude\t" + str(max_latitude)
 
 
 # 153.03508445
 def i(tweets):
     max_longitude = tweets.map(lambda t: float(t[COLUMNS.index('longitude')])).max()
-    return str(max_longitude)
+    return "Max longitude\t" + str(max_longitude)
 
 
 # 87.2014098368
 def j(tweets):
     num_chars = float(tweets.map(lambda t: len(t[COLUMNS.index('tweet_text')])).sum())
     avg_length = num_chars / tweets.count()
-    return str(avg_length)
+    return "Tweet avg num chars\t" + str(avg_length)
 
 
 # 11.9472119646
 def k(tweets):
     num_words = float(tweets.map(lambda t: len(t[COLUMNS.index('tweet_text')].split())).sum())
     avg_length = num_words / tweets.count()
-    return str(avg_length)
+    return "Tweet avg num words\t" + str(avg_length)
 
 
 if __name__ == "__main__":
@@ -89,7 +89,4 @@ if __name__ == "__main__":
 
     results = [a, b, c, d, e, f, g, h, i, j, k]
 
-
-    # write_results(result_file, results)
-
-
+    write_results(result_file, results)
