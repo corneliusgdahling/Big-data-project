@@ -21,4 +21,4 @@ if __name__ == "__main__":
 
     results = total_tweets(tweets)
 
-    write_results(result_file, results)
+    write_results(result_file, results, cols=['country_name', 'total_tweets'])
