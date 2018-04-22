@@ -1,4 +1,4 @@
-from utils import get_tweets, result_file, write_results
+from utils import get_tweets, result_file
 from constants import *
 
 

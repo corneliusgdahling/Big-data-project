@@ -1,6 +1,5 @@
 from utils import get_tweets, result_file, write_results
 from constants import *
-from task_5 import tweets_place
 
 
 def frequency_words_part_two(tweets):
@@ -14,8 +13,6 @@ def frequency_words_part_two(tweets):
         .top(5, key=lambda t: t[1])
 
     top_5_cities = [x[0] for x in top_5]
-
-    print(top_5_cities)
 
     final_result = []
 

@@ -23,6 +23,9 @@ data
 
 .idea
 
+*.zip
+*.pdf
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
