@@ -2,23 +2,23 @@ from pyspark import SparkContext, SparkConf
 import time
 
 
-def get_tweets(task, sample=True):
+def get_tweets(task, train_file, sample=True):
     start_time = time.time()
     conf = SparkConf().setAppName(task)
     sc = SparkContext(conf=conf)
-    tweets = sc.textFile('../data/geotweets.tsv')
+    tweets = sc.textFile(train_file)
     tweets_split = tweets.map(lambda x: x.split('\t'))
-    print("Init time: ", time.time() - start_time)
+    print("Init time:", time.time() - start_time)
     return tweets_split.sample(False, 0.1, 5) if sample else tweets_split
 
 
-def get_tweets_and_context(task, sample=True):
+def get_tweets_and_context(task, train_file, sample=True):
     start_time = time.time()
     conf = SparkConf().setAppName(task)
     sc = SparkContext(conf=conf)
-    tweets = sc.textFile('../data/geotweets.tsv')
+    tweets = sc.textFile(train_file)
     tweets_split = tweets.map(lambda x: x.split('\t'))
-    print("Init time: ", time.time() - start_time)
+    print("Init time:", time.time() - start_time)
     return (tweets_split.sample(False, 0.1, 5), sc) if sample else (tweets_split, sc)
 
 
