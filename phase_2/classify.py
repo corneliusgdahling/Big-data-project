@@ -16,29 +16,31 @@ def classify(train_file, in_file, out_file):
     # num_tweets_by_place = place_tuple.countByKey()
     num_tweets_by_place_tuple = place_tuple.aggregateByKey(0, (lambda c, v: c + 1), (lambda rdd1, rdd2: rdd1 + rdd2))
     # place_tuple.mapValues(lambda l: l.split(" ")).groupByKey().mapValues(list)
-    printy = place_tuple.take(10)
     result = ""
     for word in words_filtered:
         temp_result = place_tuple.aggregateByKey(0, (lambda c, v: c + 1 if word in v else c + 0), (lambda rdd1, rdd2: rdd1 + rdd2))
         if result:
-            result = result.union(temp_result).reduceByKey(lambda x, y: x + y)
+            result = result.union(temp_result).reduceByKey(lambda x, y: x * y)
         else:
             result = temp_result
 
-    resultados = result.filter(lambda t: t[1] > 5).take(20)
-    print(resultados)
+    # resultados = result.filter(lambda t: t[1] > 0).take(20)
+    # print(resultados)
+    #
+    place_tuple = place_tuple.join(num_tweets_by_place_tuple).map(lambda t: (t[0], t[1][1])).join(result).distinct()\
+        .map(lambda t: (t[0], t[1][0], t[1][1]))
 
-    place_tuple = place_tuple.join(num_tweets_by_place_tuple).map(lambda t: (t[0], t[1][1])).distinct()
-    x = place_tuple.collect()
-    sum = 0
-    for val in x:
-        sum += val[1]
+    formula_bitch = place_tuple.map(lambda t: (t[0], t[1]*t[2] / float(t[1]**len(words_filtered) * num_tweets)))
 
-    print(printy)
-    print(num_tweets)
-    print(x)
-    print('Sum of num place by key is:', sum, sum == num_tweets)
+    max = formula_bitch.map(lambda t: t[1]).max()
+    best = formula_bitch.filter(lambda t: t[1] == max).collect()
 
+    out = open(out_file, 'w')
+
+    for i in range(len(best)):
+        out.write(best[0][0] + "\t")
+
+    out.write(str(best[0][1]))
 
 if __name__ == "__main__":
     train_file = '../data/geotweets.tsv'
