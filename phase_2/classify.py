@@ -24,14 +24,15 @@ def classify(train_file, in_file, out_file):
                                         t[COLUMNS.index('tweet_text')].lower().strip()))
 
     # Sum up the number of tweets by place (aggregate by key - where place is the key)
-    num_tweets_by_place_tuple = place_tuple.aggregateByKey(0, (lambda c, v: c + 1), (lambda rdd1, rdd2: rdd1 + rdd2))
+    num_tweets_by_place_tuple = place_tuple.aggregateByKey(0, (lambda x, _: x + 1), (lambda rdd1, rdd2: rdd1 + rdd2))
 
     # Loop through the words in tweet text and multiply the number of occurrences for each word by place
     result = ""
     for word in words_filtered:
 
         # Sum the number of occurrences of the word for each key
-        temp_result = place_tuple.aggregateByKey(0, (lambda c, v: c + 1 if word in v else c + 0), (lambda rdd1, rdd2: rdd1 + rdd2))
+        temp_result = place_tuple.aggregateByKey(0, (lambda x, y: x + 1 if word in y else x + 0),
+                                                 (lambda rdd1, rdd2: rdd1 + rdd2))
 
         # If result has value, multiply number of occurence from this word with result, else make calc above result
         if result:
