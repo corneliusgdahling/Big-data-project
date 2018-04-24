@@ -4,12 +4,16 @@ import time
 
 
 def classify(train_file, in_file, out_file):
-    tweets, sc = get_tweets_and_context('1', train_file, False)
-    f = open(in_file, 'r')
 
-    # Read words from input file
+    # Get tweets from training file
+    tweets, sc = get_tweets_and_context('1', train_file, False)
+
+    # Read tweets from input file and create list of words
+    f = open(in_file, 'r')
     for line in f.readlines():
         words = line.strip().split()
+
+    # Remove stopwords from input words
     words_filtered = [w for w in words if w not in STOPWORDS]
 
     # Gets total number of tweets. Value rather than RDD is returned because it is a constant
